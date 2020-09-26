@@ -1,16 +1,17 @@
-import { showLoading, hideLoading } from 'react-redux-loading-bar';
+import { getInitialData } from '../utils/api'
+import { getUsers } from './users'
+import { getQuestions } from './questions'
+import { setAuthedUser } from './authedUser'
 
-import { getInitialData } from '../utils/api';
-import { receiveUsers } from './users';
-import { receiveQuestions } from './questions';
-
+const id = 'tylermcginnis'
 export function handleInitialData() {
-	return (dispatch) => {
-		dispatch(showLoading());
-		return getInitialData().then(({ users, questions }) => {
-			dispatch(receiveUsers(users));
-			dispatch(receiveQuestions(questions));
-			dispatch(hideLoading());
-		});
-	};
+
+    return (dispatch) => {
+        return getInitialData()
+            .then(({ users, questions }) => {
+                dispatch(getUsers(users))
+                dispatch(getQuestions(questions))
+                dispatch(setAuthedUser(id))
+            })
+    }
 }
