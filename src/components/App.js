@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Navigation from './Navigation'
-import Dashboard from './Dashboard'
+import LeaderBoard from './LeaderBoard'
 import { handleInitialData } from '../actions/shared'
 import { Container } from 'react-bootstrap'
+
+
 
 
 class App extends Component {
@@ -16,11 +18,20 @@ class App extends Component {
     return (
       <Container>
         <Navigation /><br />
-        <Dashboard />
+        { this.props.authedUser ? <LeaderBoard /> : null}
       </Container>
     )
   }
 
 }
 
-export default connect()(App)
+const mapStateToProps = ({ questions, authedUser }) => {
+
+  return {
+    authedUser,
+    questions
+
+  }
+}
+
+export default connect(mapStateToProps)(App)

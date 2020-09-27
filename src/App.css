@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.margin{
+    margin: 15px 200px ;  
+}
+
+.logout-btn{
+  margin-left: 12px;
+}
