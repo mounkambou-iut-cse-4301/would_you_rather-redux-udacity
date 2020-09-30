@@ -1,10 +1,17 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-
-import Navigation from './Navigation'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import LeaderBoard from './LeaderBoard'
+import NewQuestion from './NewQuestion'
+import Navigation from './Navigation'
+import Dashboard from './Dashboard'
+import PollQuestionDetail from './PollQuestionDetail'
+import Login from './Login'
+import WrongPath from './WrongPath'
 import { handleInitialData } from '../actions/shared'
 import { Container } from 'react-bootstrap'
+
+import { LoadingBar } from 'react-redux-loading'
 
 
 
@@ -16,10 +23,27 @@ class App extends Component {
   }
   render() {
     return (
-      <Container>
-        <Navigation /><br />
-        { this.props.authedUser ? <LeaderBoard /> : null}
-      </Container>
+      <Router>
+        <Fragment>
+          <LoadingBar /><br />
+          <Container>
+            {this.props.authedUser ?
+              <div>
+                <Navigation /><br />
+                <Switch>
+                  <Route path='/' exact component={Dashboard} />
+                  <Route path="/questions/:question_id" component={PollQuestionDetail} />
+                  <Route path="/new_question" component={NewQuestion} />
+                  <Route path="/leaderboard" component={LeaderBoard} />
+                  <Route component={WrongPath} />
+                </Switch>
+              </div>
+              : <Login />}
+          </Container>
+
+        </Fragment>
+
+      </Router>
     )
   }
 

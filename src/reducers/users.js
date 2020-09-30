@@ -20,15 +20,16 @@ export default function users(state = {}, action) {
                 }
             }
         case ADD_QUESTION:
-            const {  formattedQuestion } = action
+            const { question } = action
             return {
                 ...state,
-                [formattedQuestion.author]: {
-                    ...state[formattedQuestion.author],
-                    questions: state[formattedQuestion.author].questions.concat([formattedQuestion.id])
+                [question.author]: {
+                    ...state[question.author],
+                    questions: state[question.author].questions.concat([question.id])
                 }
             }
         default:
             return state
     }
 }
+

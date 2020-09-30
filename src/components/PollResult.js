@@ -6,7 +6,9 @@ import { Card, Col, Row, Image, Alert, ProgressBar, Badge } from 'react-bootstra
 class PollResult extends React.Component {
 
     render() {
-        const { authedUser, question, user } = this.props
+        const { authedUser, question, user,fisrtOption,secondOption } = this.props
+
+
         return (
 
             <Card className="magin">
@@ -24,7 +26,7 @@ class PollResult extends React.Component {
                                     <Alert variant="info">
                                         <p>Would you rather be </p>
                                         <p >{question ? question.optionOne.text : null}</p>
-                                        <ProgressBar animated now={45} />
+                                        <ProgressBar animated now={fisrtOption} />
                                         <p>{question ? question.optionOne.votes.length : null}
                                             <span> out of </span>
                                             {question ? (question.optionOne.votes.length) + (question.optionTwo.votes.length) : null}
@@ -49,7 +51,7 @@ class PollResult extends React.Component {
                                 <Col md={10} >
                                     <Alert variant="dark">
                                         <p >{question ? question.optionTwo.text : null}</p>
-                                        <ProgressBar animated now={45} />
+                                        <ProgressBar animated now={secondOption} />
                                         <p>{question ? question.optionTwo.votes.length : null}
                                             <span> out of </span>
                                             {question ? (question.optionOne.votes.length) + (question.optionTwo.votes.length) : null}
@@ -76,13 +78,17 @@ class PollResult extends React.Component {
         )
     }
 }
-const mapStateToProps = ({ questions, authedUser, users }) => {
-    const question = questions ? questions['6ni6ok3ym7mf1p33lnez'] : null
+const mapStateToProps = ({ questions, authedUser, users }, { id }) => {
+    const question = questions ? questions[id] : null
     const user = question ? users[question.author] : null
+    const fisrtOption = ((question.optionOne.votes.length) * 100) / ((question.optionOne.votes.length) + (question.optionTwo.votes.length))
+    const secondOption = ((question.optionTwo.votes.length) * 100) / ((question.optionOne.votes.length) + (question.optionTwo.votes.length))
     return {
         question,
         user,
-        authedUser
+        authedUser,
+        fisrtOption,
+        secondOption
 
     }
 }

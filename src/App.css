@@ -2,6 +2,8 @@
   text-align: center;
 }
 
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -43,4 +45,7 @@
 
 .logout-btn{
   margin-left: 12px;
+}
+.margin_top{
+  margin-top: 20px;
 }

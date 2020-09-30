@@ -1,8 +1,7 @@
 import React from 'react'
 import '../App.css'
 import { connect } from 'react-redux'
-import { NavLink } from "react-router-dom";
-import { Card, Col, Row, Button, Image, Tabs, Tab } from 'react-bootstrap'
+import { Card, Tabs, Tab,Alert } from 'react-bootstrap'
 import PollQuestion from './PollQuestion'
 
 class Dashboard extends React.Component {
@@ -21,7 +20,7 @@ class Dashboard extends React.Component {
                                         <PollQuestion id={id} />
                                     </div>
                                 )
-                            }
+                            } 
                         })
                         }
 
@@ -45,8 +44,8 @@ const mapStateToProps = ({ questions, users, authedUser }) => {
     const qids = Object.keys(questions).sort((a, b) => questions[b].timestamp - questions[a].timestamp)
     const user = authedUser ? users[authedUser] : null
     const answerqt = user ? user.answers : null
-    const an_q = answerqt ? Object.keys(answerqt) : []
-
+    let an_q = answerqt ? Object.keys(answerqt) : []
+    an_q = qids.filter((qid) => an_q.includes(qid))
 
     return {
         authedUser,

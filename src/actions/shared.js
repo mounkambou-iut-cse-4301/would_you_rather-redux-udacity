@@ -1,22 +1,24 @@
-import { getInitialData,saveQuestionAnswer,saveQuestion } from '../utils/api'
+import { getInitialData, saveQuestionAnswer, saveQuestion } from '../utils/api'
+import { showLoading, hideLoading } from 'react-redux-loading'
 import { getUsers } from './users'
 import { getQuestions } from './questions'
-import { setAuthedUser } from './authedUser'
+// import { setAuthedUser } from './authedUser'
 
 
 export const SAVE_ANSWER = 'SAVE_ANSWER'
-export const ADD_QUESTION='ADD_QUESTION'
+export const ADD_QUESTION = 'ADD_QUESTION'
 
-const id = 'tylermcginnis'
+// const id = 'tylermcginnis'
 export function handleInitialData() {
 
     return (dispatch) => {
+        dispatch(showLoading())
         return getInitialData()
             .then(({ users, questions }) => {
-                dispatch(setAuthedUser(id))
+                // dispatch(setAuthedUser(id))
                 dispatch(getUsers(users))
                 dispatch(getQuestions(questions))
-
+                dispatch(hideLoading())
             })
     }
 }
@@ -39,18 +41,21 @@ export function handleSaveAnswer(info) {
     })
 }
 
-export function addQuestion(formattedQuestion) {
+
+
+export function addQuestion(question) {
     return {
         type: ADD_QUESTION,
-        formattedQuestion
+        question
     }
 }
 
+
 export function handleSaveQuestion(question) {
-    return (dispatch => {
+    return (dispatch) => {
         return saveQuestion(question)
-            .then((formattedQuestion) => {
-                dispatch(addQuestion(formattedQuestion))
+            .then((question) => {
+                dispatch(addQuestion(question))
             })
-    })
+    }
 }

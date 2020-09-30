@@ -1,5 +1,5 @@
 import { GET_QUESTIONS } from '../actions/questions'
-import { SAVE_ANSWER,ADD_QUESTION } from '../actions/shared'
+import { SAVE_ANSWER, ADD_QUESTION } from '../actions/shared'
 
 export default function questions(state = {}, action) {
     switch (action.type) {
@@ -20,12 +20,15 @@ export default function questions(state = {}, action) {
                     }
                 }
             }
-            case ADD_QUESTION:
-                return {
-                    ...state,
-                    [action.formattedQuestion.id]: action.formattedQuestion
-                }
+        case ADD_QUESTION:
+            const { question } = action
+            return {
+                ...state,
+                [question.id]: question
+            }
         default:
             return state
     }
 }
+
+

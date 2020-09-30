@@ -1,50 +1,66 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { handleSaveQuestion } from '../actions/shared'
 import '../App.css'
 import { Card, Row, Button, Form } from 'react-bootstrap'
+import { Redirect } from 'react-router-dom'
 
 class NewQuestion extends React.Component {
     state = {
-        optionOne: '',
-        optionTwo: ''
+        optionOneText: '',
+        optionTwoText: '',
+        toDashboard: false
     }
 
     handleChangeOptionOne = (e) => {
-        const optionOne = e.target.value
+        const optionOneText = e.target.value
 
         this.setState(() => ({
-            optionOne
+            optionOneText
         }))
+
     }
 
     handleChangeOptionTwo = (e) => {
-        const optionTwo = e.target.value
+        const optionTwoText = e.target.value
 
         this.setState(() => ({
-            optionTwo
+            optionTwoText
         }))
+
     }
 
-    handleSubmit = (e) => {
+    handleQuestionSubmit = (e) => {
         e.preventDefault()
 
-        const { optionOne, optionTwo } = this.state
-
-        //todo: add options to store
+        const { optionOneText, optionTwoText } = this.state
+        const { dispatch, authedUser } = this.props
+        const author = authedUser
+        //add question to store
+        dispatch(handleSaveQuestion({ optionOneText, optionTwoText, author }))
+        this.setState(() => ({
+            optionOneText: '',
+            optionTwoText: '',
+            toDashboard: true
+        }))
 
     }
     render() {
-        const { optionOne, optionTwo } = this.props
+        const { optionOneText, optionTwoText, toDashboard } = this.state
+        if (toDashboard === true) {
+            return <Redirect to='/' />
+        }
+
         return (
             <Card className="margin">
                 <Card.Header className="text-center"><strong>Create New Question</strong></Card.Header>
                 <Card.Body>
                     <p>Complite the question</p>
                     <h6><strong>Would you rather...</strong></h6><br />
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form onSubmit={this.handleQuestionSubmit}>
                         <Form.Group>
                             <Form.Control type="text"
-                                value={optionOne}
+                                value={optionOneText}
                                 onChange={this.handleChangeOptionOne}
                                 placeholder="Enter Option One Text Here" />
                         </Form.Group>
@@ -54,13 +70,15 @@ class NewQuestion extends React.Component {
 
                         <Form.Group>
                             <Form.Control type="text"
-                                value={optionTwo}
+                                value={optionTwoText}
                                 onChange={this.handleChangeOptionTwo}
                                 placeholder="Enter Option Two Text Here" />
                         </Form.Group>
 
                         <Form.Group as={Row}>
-                            <Button variant="success" size="lg" block>
+                            <Button variant="success" size="lg" block
+                                type="submit"
+                                disabled={optionOneText === '' || optionTwoText === ''}>
                                 Submit
                             </Button>
                         </Form.Group>
@@ -72,7 +90,13 @@ class NewQuestion extends React.Component {
         )
     }
 }
+const mapStateToProps = ({ authedUser }) => {
+    return {
+        authedUser
+
+    }
+}
 
 
 
-export default connect()(NewQuestion)
+export default connect(mapStateToProps)(NewQuestion)
