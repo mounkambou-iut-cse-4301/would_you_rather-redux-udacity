@@ -2,9 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { handleSaveAnswer } from '../actions/shared'
 import { Card, Col, Row, Button, Image, Form } from 'react-bootstrap'
-import authedUser from '../reducers/authedUser'
 import { withRouter } from 'react-router-dom'
-
 import PollResult from './PollResult'
 
 class PollQuestionDetail extends React.Component {

@@ -33,7 +33,7 @@ class App extends Component {
                 <Switch>
                   <Route path='/' exact component={Dashboard} />
                   <Route path="/questions/:question_id" component={PollQuestionDetail} />
-                  <Route path="/new_question" component={NewQuestion} />
+                  <Route path="/add" component={NewQuestion} />
                   <Route path="/leaderboard" component={LeaderBoard} />
                   <Route component={WrongPath} />
                 </Switch>

@@ -23,7 +23,7 @@ class Navigation extends React.Component {
                     <Nav.Link as={NavLink} to="/" exact>
                         Home
 						</Nav.Link>
-                    <Nav.Link as={NavLink} to="/new_question" exact>
+                    <Nav.Link as={NavLink} to="/add" exact>
                         New Question
 						</Nav.Link>
                     <Nav.Link as={NavLink} to="/leaderboard" exact>

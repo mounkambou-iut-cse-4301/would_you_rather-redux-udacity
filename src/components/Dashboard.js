@@ -1,7 +1,7 @@
 import React from 'react'
 import '../App.css'
 import { connect } from 'react-redux'
-import { Card, Tabs, Tab,Alert } from 'react-bootstrap'
+import { Card, Tabs, Tab } from 'react-bootstrap'
 import PollQuestion from './PollQuestion'
 
 class Dashboard extends React.Component {
@@ -20,7 +20,10 @@ class Dashboard extends React.Component {
                                         <PollQuestion id={id} />
                                     </div>
                                 )
-                            } 
+                            }
+                            else {
+                                return null
+                            }
                         })
                         }
 
@@ -50,7 +53,7 @@ const mapStateToProps = ({ questions, users, authedUser }) => {
     return {
         authedUser,
         qids,
-        an_q,
+        an_q
 
     }
 }
