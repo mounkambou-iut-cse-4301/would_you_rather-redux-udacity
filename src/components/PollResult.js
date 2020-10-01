@@ -6,8 +6,11 @@ import { Card, Col, Row, Image, Alert, ProgressBar, Badge } from 'react-bootstra
 class PollResult extends React.Component {
 
     render() {
-        const { authedUser, question, user,fisrtOption,secondOption } = this.props
-
+        const { authedUser, question, user, fisrtOption, secondOption } = this.props
+        const option1 = fisrtOption;
+        const option2 = secondOption;
+        const progressInstanceFisrtOption = <ProgressBar animated now={option1} label={`${option1}%`} />
+        const progressInstanceSecondOption = <ProgressBar animated now={option2} label={`${option2}%`} />
 
         return (
 
@@ -26,7 +29,7 @@ class PollResult extends React.Component {
                                     <Alert variant="info">
                                         <p>Would you rather be </p>
                                         <p >{question ? question.optionOne.text : null}</p>
-                                        <ProgressBar animated now={fisrtOption} />
+                                        {progressInstanceFisrtOption}
                                         <p>{question ? question.optionOne.votes.length : null}
                                             <span> out of </span>
                                             {question ? (question.optionOne.votes.length) + (question.optionTwo.votes.length) : null}
@@ -51,7 +54,7 @@ class PollResult extends React.Component {
                                 <Col md={10} >
                                     <Alert variant="dark">
                                         <p >{question ? question.optionTwo.text : null}</p>
-                                        <ProgressBar animated now={secondOption} />
+                                        {progressInstanceSecondOption}
                                         <p>{question ? question.optionTwo.votes.length : null}
                                             <span> out of </span>
                                             {question ? (question.optionOne.votes.length) + (question.optionTwo.votes.length) : null}
@@ -80,9 +83,11 @@ class PollResult extends React.Component {
 }
 const mapStateToProps = ({ questions, authedUser, users }, { id }) => {
     const question = questions ? questions[id] : null
-    const user = question ? users[question.author] : null
-    const fisrtOption = ((question.optionOne.votes.length) * 100) / ((question.optionOne.votes.length) + (question.optionTwo.votes.length))
-    const secondOption = ((question.optionTwo.votes.length) * 100) / ((question.optionOne.votes.length) + (question.optionTwo.votes.length))
+    const user = question ? users[question.author] : null 
+    let fisrtOption = (((question.optionOne.votes.length) / ((question.optionOne.votes.length) + (question.optionTwo.votes.length))) * 100)
+    fisrtOption=Number.parseFloat(fisrtOption).toPrecision(3)
+    let secondOption = (((question.optionTwo.votes.length) / ((question.optionOne.votes.length) + (question.optionTwo.votes.length))) * 100)
+    secondOption=Number.parseFloat(secondOption).toPrecision(3)
     return {
         question,
         user,
